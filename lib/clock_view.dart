@@ -53,6 +53,7 @@ class ClockPainter extends CustomPainter {
     Offset center = Offset(centerX, centerY);
     double radius = min(centerX, centerY);
     double strokeWidth = 16;
+    double secTickLineWidth = 5;
 
     Color secHandColor = const Color(0xFFFF5C5C);
     List<Color> minHandColors = const [Color(0xFF748EF6), Color(0xFF77DDFF)];
@@ -110,8 +111,8 @@ class ClockPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 1;
 
-    var outerCircleRadius = radius;
-    var innerCircleRadius = radius - 14;
+    var outerCircleRadius = radius - 45 - strokeWidth / 2;
+    var innerCircleRadius = radius - 45 - strokeWidth / 2;
 
     canvas.drawCircle(center, radius - 40, fillBrush);
     canvas.drawCircle(center, radius - 40, outlineBrush);
@@ -136,6 +137,21 @@ class ClockPainter extends CustomPainter {
     canvas.drawLine(center, Offset(secHandX, secHandY), secHandBrush);
     canvas.drawCircle(
         center, strokeWidth / 3, centerFillBrush(secHandColor, 2));
+
+    /// inner second lines for each tick
+
+    for (double i = 0; i < 360; i += 6) {
+      double x1 =
+          centerX + (innerCircleRadius + secTickLineWidth) * cos(i * pi / 180);
+      double y1 =
+          centerY + (innerCircleRadius + secTickLineWidth) * sin(i * pi / 180);
+      double x2 =
+          centerX + (outerCircleRadius - secTickLineWidth) * cos(i * pi / 180);
+      double y2 =
+          centerY + (outerCircleRadius - secTickLineWidth) * sin(i * pi / 180);
+
+      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);
+    }
   }
 
   @override
