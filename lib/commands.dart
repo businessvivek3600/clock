@@ -1,0 +1,1 @@
+// adb shell 'am start -W -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://brightyourfutures.in/product_details"'

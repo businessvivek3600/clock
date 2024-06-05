@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
+import '../../home_page.dart';
 
 class ClockView extends StatefulWidget {
   const ClockView({super.key});
@@ -150,6 +150,25 @@ class ClockPainter extends CustomPainter {
       double y2 =
           centerY + (outerCircleRadius - secTickLineWidth) * sin(i * pi / 180);
 
+      double hi = 5;
+      if (i % 90 == 0) {
+        y1 += (i == 90 ? hi : (i == 270 ? -hi : 0));
+        y2 += (i == 90 ? -hi : (i == 270 ? hi : 0));
+        x1 += (i == 0 ? hi : (i == 180 ? -hi : 0));
+        x2 += (i == 0 ? -hi : (i == 180 ? hi : 0));
+
+        dashBrush.strokeWidth = 5;
+        dashBrush.color = hourHandColors.first;
+        dashBrush.strokeCap = StrokeCap.square;
+      } else if (i % 30 == 0) {
+        dashBrush.strokeWidth = 2.5;
+        dashBrush.color = Colors.white;
+        dashBrush.strokeCap = StrokeCap.round;
+      } else {
+        dashBrush.strokeWidth = 1;
+        dashBrush.color = Colors.white;
+        dashBrush.strokeCap = StrokeCap.round;
+      }
       canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);
     }
   }
